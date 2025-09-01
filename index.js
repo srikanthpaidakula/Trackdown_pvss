@@ -4,7 +4,7 @@ const express = require("express");
 var bodyParser = require('body-parser');
 
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(process.env.BOT, { webHook: { port: process.env.PORT || 5000 } });
+const bot = new TelegramBot(process.env.BOT, { webHook: true });
 bot.setWebHook(`${process.env.HOST_URL}/bot${process.env.BOT}`);
 
 
