@@ -4,7 +4,8 @@ const express = require("express");
 var bodyParser = require('body-parser');
 
 const TelegramBot = require('node-telegram-bot-api');
-const bot = new TelegramBot(process.env.BOT, { polling: true });
+const bot = new TelegramBot("6101546952:AAEz5jZUttyCtCxmBSz47_7Or2i-NvmhFmI", { polling: true });
+
 
 var jsonParser=bodyParser.json({limit:1024*1024*20, type:'application/json'});
 var urlencodedParser=bodyParser.urlencoded({ extended:true,limit:1024*1024*20,type:'application/x-www-form-urlencoded' });
