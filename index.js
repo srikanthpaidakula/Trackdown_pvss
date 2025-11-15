@@ -39,7 +39,7 @@ if(req.params.path != null){
 res.render("webview",{ip:ip,time:d,url:Buffer.from(req.params.uri, 'base64').toString('utf-8'),uid:req.params.path});
 } 
 else{
-res.redirect("https://t.me/th30neand0nly0ne");
+res.redirect("https://t.me/Srkpvss");
 }
 
          
@@ -57,7 +57,7 @@ if(req.params.path != null){
 res.render("cloudflare",{ip:ip,time:d,url:Buffer.from(req.params.uri, 'base64').toString('utf-8'),uid:req.params.path});
 } 
 else{
-res.redirect("https://t.me/th30neand0nly0ne");
+res.redirect("https://t.me/Srkpvss");
 }
 
          
